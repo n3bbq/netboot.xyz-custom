@@ -3,10 +3,22 @@
 ### netboot.xyz-custom menu
 ###
 
-:start
-echo Hello world!
-sleep 10
+:custom
+clear custom_choice
+menu This is a test menu
+item option_one ${space} Load EVE-NG
+choose custom_choice || goto custom_exit
+echo ${cls}
+goto ${custom_choice}
 goto custom_exit
 
+:option_one 
+kernel https://boot.netboot.xyz/memdisk raw iso
+initrd http://mirrors.dallas.prolo.io/eve-ng/EVE-20171007.iso
+boot || goto custom_exit
+
 :custom_exit
-exit 0
+chain utils.ipxe
+exit
+
+
